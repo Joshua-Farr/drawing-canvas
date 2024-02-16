@@ -1,6 +1,6 @@
 // Logic for handling mouse events
 
-import { Coordinates } from "../types";
+import { Coordinates } from "./types";
 
 export const getMousePosition = (event: any) => {
   event.preventDefault();

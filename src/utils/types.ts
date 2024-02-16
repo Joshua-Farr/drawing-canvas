@@ -6,6 +6,7 @@ export interface Coordinates {
 }
 
 export interface Shape {
+  name: "circle" | "diamond" | "rectangle" | "oval" | "line";
   xCoord: number;
   yCoord: number;
   height?: number;
