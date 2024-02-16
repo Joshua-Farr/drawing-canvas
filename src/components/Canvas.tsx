@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { getMousePosition } from "../utils/Mouse.ts";
+import { drawLine } from "../utils/Drawing.ts";
+import { Coordinates } from "../utils/types.ts";
 
 const Canvas = () => {
-  const [mousePosition, setMousePosition] = useState({});
-  const [clickStartPosition, setClickStartPosition] = useState({});
-  const [clicEndPosition, setClickEndPosition] = useState({});
+  const [, setMousePosition] = useState<Coordinates>({
+    xCoord: 0,
+    yCoord: 0,
+  });
+  const [clickStartPosition, setClickStartPosition] = useState<Coordinates>({
+    xCoord: 0,
+    yCoord: 0,
+  });
+  const [clicEndPosition, setClickEndPosition] = useState<Coordinates>({
+    xCoord: 0,
+    yCoord: 0,
+  });
 
   const updateMousePosition = (event: any) => {
     event.preventDefault();
 
-    const mousePosition = getMousePosition(event);
-    setMousePosition(mousePosition);
-    // console.log(
-    //   `Current mouse coordinates: (${mousePosition.mouseX}, ${mousePosition.mouseY})`
-    // );
+    const newMousePosition = getMousePosition(event);
+    setMousePosition(newMousePosition);
   };
 
   const updateClickStartPosition = (event: any) => {
@@ -28,10 +36,6 @@ const Canvas = () => {
 
     const clickCoordinates = getMousePosition(event);
     setClickEndPosition(clickCoordinates);
-
-    // console.log(
-    //   `Here are the click coordinates: ${clickStartPosition}, ${clicEndPosition}`
-    // );
   };
 
   return (
@@ -39,14 +43,18 @@ const Canvas = () => {
       id="myCanvas"
       style={{
         backgroundColor: "lightgray",
-        width: "100%",
-        height: "100vh",
-        margin: "none",
+        // width: "100%",
+        // height: "100vh",
+        // margin: "none",
         border: "none",
+        objectFit: "contain",
       }}
       onMouseMoveCapture={(e) => updateMousePosition(e)}
       onMouseDown={(e) => updateClickStartPosition(e)}
-      onMouseUp={(e) => updateClickEndPosition(e)}
+      onMouseUp={(e) => {
+        updateClickEndPosition(e);
+        drawLine(clickStartPosition, clicEndPosition);
+      }}
     ></canvas>
   );
 };

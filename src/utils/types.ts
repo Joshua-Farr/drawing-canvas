@@ -1,8 +1,8 @@
 // Typing for canvas
 
 export interface Coordinates {
-  mouseX: number;
-  mouseY: number;
+  xCoord: number;
+  yCoord: number;
 }
 
 export interface Shape {

@@ -1,33 +1,36 @@
-/// Logic for drawing shapes on the canvas
+/// Logic for drawing shapes on the canvas`
 
 import { Shape, Coordinates } from "./types";
 
 const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
 
-const calculateRectangleHeightAndWidth = (
+export const calculateRectangleHeightAndWidth = (
   start: Coordinates,
   end: Coordinates
 ) => {
-  const height = Math.abs(start.mouseY - end.mouseY);
-  const width = Math.abs(start.mouseX - end.mouseX);
+  const height = Math.abs(start.yCoord - end.yCoord);
+  const width = Math.abs(start.xCoord - end.xCoord);
 
   return { height: height, width: width };
 };
 
-const calculateMiddleOfRectangle = (start: Coordinates, end: Coordinates) => {
+export const calculateMiddleOfRectangle = (
+  start: Coordinates,
+  end: Coordinates
+) => {
   let middleYCoord = 0;
   let middleXCoord = 0;
 
-  if (start.mouseY > end.mouseY) {
-    middleYCoord = start.mouseY - end.mouseY;
+  if (start.yCoord > end.yCoord) {
+    middleYCoord = start.yCoord - end.yCoord;
   } else {
-    middleYCoord = end.mouseY - start.mouseY;
+    middleYCoord = end.yCoord - start.yCoord;
   }
 
-  if (start.mouseX > end.mouseX) {
-    middleXCoord = end.mouseX - start.mouseX;
+  if (start.xCoord > end.xCoord) {
+    middleXCoord = end.xCoord - start.xCoord;
   } else {
-    middleXCoord = start.mouseX - end.mouseX;
+    middleXCoord = start.xCoord - end.xCoord;
   }
 
   return {
@@ -36,16 +39,51 @@ const calculateMiddleOfRectangle = (start: Coordinates, end: Coordinates) => {
   };
 };
 
-export const drawShape = (position: Coordinates) => {
+export const drawShape = (position: Coordinates, shape: Shape) => {
   if (canvas?.getContext) {
     const ctx = canvas?.getContext("2d");
     if (ctx) {
-      ctx.fillRect(position.mouseX, position.mouseY, 150, 75);
+      if (shape.name === "rectangle") {
+        ctx.fillRect(position.xCoord, position.yCoord, 150, 75);
+      } else if (shape.name === "circle" && shape.radius) {
+        ctx.arc(
+          position.xCoord,
+          position.yCoord,
+          shape.radius,
+          0,
+          2 * Math.PI,
+          false
+        );
+      }
     } else {
       console.error("2D context not supported!");
     }
   } else {
     console.error("No canvas element found!");
+  }
+};
+
+export const drawLine = (start: Coordinates, end: Coordinates) => {
+  console.log(
+    `Drawing a line from (${start.xCoord},${start.yCoord}) to (${end.xCoord},${end.yCoord})`
+  );
+
+  const ctx = canvas?.getContext("2d");
+
+  if (ctx) {
+    ctx.scale(1, 1);
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    //
+    ctx.beginPath();
+    ctx.moveTo(start.xCoord, start.yCoord);
+    // ctx.moveTo(0, 0);
+    ctx.lineTo(end.xCoord, end.yCoord);
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.stroke();
   }
 };
 

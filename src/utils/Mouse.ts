@@ -8,8 +8,8 @@ export const getMousePosition = (event: any) => {
   const mouseYCoord = event.clientY;
 
   const currentMouseCoordinates: Coordinates = {
-    mouseX: mouseXCoord,
-    mouseY: mouseYCoord,
+    xCoord: mouseXCoord,
+    yCoord: mouseYCoord,
   };
 
   return currentMouseCoordinates;
