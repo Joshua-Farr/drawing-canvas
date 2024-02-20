@@ -2,8 +2,6 @@
 
 import { Shape, Coordinates } from "./types";
 
-const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-
 export const calculateRectangleHeightAndWidth = (
   start: Coordinates,
   end: Coordinates
@@ -39,51 +37,45 @@ export const calculateMiddleOfRectangle = (
   };
 };
 
-export const drawShape = (position: Coordinates, shape: Shape) => {
-  if (canvas?.getContext) {
-    const ctx = canvas?.getContext("2d");
-    if (ctx) {
-      if (shape.name === "rectangle") {
-        ctx.fillRect(position.xCoord, position.yCoord, 150, 75);
-      } else if (shape.name === "circle" && shape.radius) {
-        ctx.arc(
-          position.xCoord,
-          position.yCoord,
-          shape.radius,
-          0,
-          2 * Math.PI,
-          false
-        );
-      }
-    } else {
-      console.error("2D context not supported!");
+export const drawShape = (
+  position: Coordinates,
+  shape: Shape,
+  context: CanvasRenderingContext2D
+) => {
+  if (context) {
+    if (shape.name === "rectangle") {
+      context.fillRect(position.xCoord, position.yCoord, 150, 75);
+    } else if (shape.name === "circle" && shape.radius) {
+      context.arc(
+        position.xCoord,
+        position.yCoord,
+        shape.radius,
+        0,
+        2 * Math.PI,
+        false
+      );
     }
   } else {
-    console.error("No canvas element found!");
+    console.error("2D context not supported!");
   }
 };
 
-export const drawLine = (start: Coordinates, end: Coordinates) => {
-  console.log(
-    `Drawing a line from (${start.xCoord},${start.yCoord}) to (${end.xCoord},${end.yCoord})`
-  );
-
-  const ctx = canvas?.getContext("2d");
-
-  if (ctx) {
-    ctx.scale(1, 1);
-    ctx.beginPath();
-    ctx.arc(0, 0, 50, 0, 2 * Math.PI);
-    ctx.stroke();
-
-    //
-    ctx.beginPath();
-    ctx.moveTo(start.xCoord, start.yCoord);
-    // ctx.moveTo(0, 0);
-    ctx.lineTo(end.xCoord, end.yCoord);
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.stroke();
+export const drawLine = (
+  start: Coordinates,
+  end: Coordinates,
+  context: CanvasRenderingContext2D | null | undefined
+) => {
+  console.log("Here is the context: ", context);
+  if (context) {
+    console.log("NO ISSUES WITH CONTEXT BOIII");
+    context.imageSmoothingEnabled = false;
+    context.beginPath();
+    context.moveTo(start.xCoord, start.yCoord);
+    context.lineTo(end.xCoord, end.yCoord);
+    context.lineWidth = 1;
+    context.strokeStyle = "black";
+    context.lineCap = "round";
+    context.stroke();
   }
 };
 
