@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getMousePosition } from "../utils/Mouse.ts";
 import { drawLine } from "../utils/Drawing.ts";
 import { Coordinates } from "../utils/types.ts";
@@ -53,11 +53,9 @@ const Canvas = () => {
       id="myCanvas"
       style={{
         backgroundColor: "lightgray",
-        // width: "100vw",
-        // height: "100vh",
-        margin: "0",
-        border: "0",
       }}
+      width={window.innerWidth.toString()}
+      height={window.innerHeight.toString()}
       onMouseMoveCapture={(e) => updateMousePosition(e)}
       onMouseDown={(e) => updateClickStartPosition(e)}
       onMouseUp={(e) => updateClickEndPosition(e)}

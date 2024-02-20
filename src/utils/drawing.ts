@@ -65,9 +65,7 @@ export const drawLine = (
   end: Coordinates,
   context: CanvasRenderingContext2D | null | undefined
 ) => {
-  console.log("Here is the context: ", context);
   if (context) {
-    console.log("NO ISSUES WITH CONTEXT BOIII");
     context.imageSmoothingEnabled = false;
     context.beginPath();
     context.moveTo(start.xCoord, start.yCoord);
