@@ -40,12 +40,22 @@ export const calculateMiddleOfRectangle = (
 export const drawShape = (
   position: Coordinates,
   shape: Shape,
-  context: CanvasRenderingContext2D
+  context: CanvasRenderingContext2D | null | undefined
 ) => {
   if (context) {
     if (shape.name === "rectangle") {
-      context.fillRect(position.xCoord, position.yCoord, 150, 75);
+      context.fillStyle = `rgb(
+        ${Math.floor(255 - 42.5 * Math.floor(Math.random() * 6))}
+        ${Math.floor(255 - 42.5 * Math.floor(Math.random() * 6))}
+        0)`;
+      context.fillRect(
+        position.xCoord - 75,
+        position.yCoord - 0.5 * 75,
+        150,
+        75
+      );
     } else if (shape.name === "circle" && shape.radius) {
+      console.log("DRAWING A CIRCLE!");
       context.arc(
         position.xCoord,
         position.yCoord,
@@ -70,10 +80,12 @@ export const drawLine = (
     context.beginPath();
     context.moveTo(start.xCoord, start.yCoord);
     context.lineTo(end.xCoord, end.yCoord);
-    context.lineWidth = 1;
+    context.lineWidth = 3;
     context.strokeStyle = "black";
     context.lineCap = "round";
+    context.translate(0.5, 0.5);
     context.stroke();
+    context.translate(-0.5, -0.5);
   }
 };
 
